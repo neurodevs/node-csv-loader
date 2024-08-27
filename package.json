@@ -25,11 +25,16 @@
     "watch.tsc": "tsc -w"
   },
   "devDependencies": {
+    "@sprucelabs/jest-json-reporter": "^8.0.258",
     "@sprucelabs/resolve-path-aliases": "^2.0.235",
+    "@sprucelabs/test": "^9.0.42",
+    "@sprucelabs/test-utils": "^5.1.199",
     "@types/node": "^22.5.0",
     "chokidar-cli": "^3.0.0",
     "eslint": "^9.9.1",
     "eslint-config-spruce": "^11.2.26",
+    "jest": "^29.7.0",
+    "jest-circus": "^29.7.0",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.2.0",
@@ -38,5 +43,23 @@
   "description": "Load a CSV file",
   "skill": {
     "namespace": "node-csv-loader"
+  },
+  "jest": {
+    "testRunner": "jest-circus/runner",
+    "maxWorkers": 4,
+    "testTimeout": 120000,
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "<rootDir>/tmp/",
+      "<rootDir>/src/",
+      "<rootDir>/node_modules/",
+      "<rootDir>/build/__tests__/testDirsAndFiles/"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.js?(x)"
+    ],
+    "moduleNameMapper": {
+      "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
+    }
   }
 }
