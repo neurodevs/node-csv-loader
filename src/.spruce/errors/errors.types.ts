@@ -5,6 +5,45 @@ import * as SpruceSchema from '@sprucelabs/schema'
 
 
 
+
+export declare namespace SpruceErrors.NodeCsvLoader {
+
+	
+	export interface InvalidFileExtension {
+		
+			/** The expected file extension.. */
+			'expected': string
+			/** The path to the file with an invalid file extension.. */
+			'path': string
+	}
+
+	export interface InvalidFileExtensionSchema extends SpruceSchema.Schema {
+		id: 'invalidFileExtension',
+		namespace: 'NodeCsvLoader',
+		name: 'INVALID_FILE_EXTENSION',
+		    fields: {
+		            /** The expected file extension.. */
+		            'expected': {
+		                label: 'The expected file extension.',
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
+		            /** The path to the file with an invalid file extension.. */
+		            'path': {
+		                label: 'The path to the file with an invalid file extension.',
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type InvalidFileExtensionEntity = SchemaEntity<SpruceErrors.NodeCsvLoader.InvalidFileExtensionSchema>
+
+}
+
+
 export declare namespace SpruceErrors.NodeCsvLoader {
 
 	

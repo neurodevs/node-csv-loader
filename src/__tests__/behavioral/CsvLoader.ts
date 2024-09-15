@@ -20,12 +20,23 @@ export default class CsvLoaderImpl implements CsvLoader {
     }
 
     private validatePath() {
-        this.assertPathPassed()
+        this.assertPathWasPassed()
+        this.assertPathIsCsv()
         this.assertPathExists()
     }
 
-    private assertPathPassed() {
+    private assertPathWasPassed() {
         assertOptions({ csvPath: this.csvPath }, ['csvPath'])
+    }
+
+    private assertPathIsCsv() {
+        if (!this.csvPath.endsWith('.csv')) {
+            throw new SpruceError({
+                code: 'INVALID_FILE_EXTENSION',
+                expected: '.csv',
+                path: this.csvPath,
+            })
+        }
     }
 
     private assertPathExists() {

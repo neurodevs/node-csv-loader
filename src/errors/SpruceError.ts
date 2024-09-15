@@ -8,8 +8,13 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
         let message
         switch (options?.code) {
             case 'FILE_NOT_FOUND':
-                message = `File not found at ${options.path}`
+                message = `File not found! Path: '${options.path}'.`
                 break
+
+            case 'INVALID_FILE_EXTENSION':
+                message = `Invalid file extension! Expected '${options.expected}', but received a file with path: '${options.path}'.`
+                break
+
             default:
                 message = super.friendlyMessage()
         }
