@@ -27,8 +27,19 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         )
 
         errorAssert.assertError(err, 'MISSING_PARAMETERS', {
-            parameters: ['path'],
+            parameters: ['csvPath'],
         })
+    }
+
+    @test()
+    protected static async throwsIfPathDoesNotExist() {
+        const invalidPath = 'asdf'
+
+        const err = await assert.doesThrowAsync(
+            async () => await this.loader.load(invalidPath)
+        )
+
+        errorAssert.assertError(err, 'FILE_NOT_FOUND', { path: invalidPath })
     }
 
     private static Loader() {
