@@ -5,6 +5,8 @@ import SpruceError from '../../errors/SpruceError'
 export default class CsvLoaderImpl implements CsvLoader {
     public static Class?: CsvLoaderConstructor
 
+    private csvPath!: string
+
     protected constructor() {}
 
     public static Create() {
@@ -12,12 +14,25 @@ export default class CsvLoaderImpl implements CsvLoader {
     }
 
     public async load(csvPath: string) {
-        assertOptions({ csvPath }, ['csvPath'])
+        this.csvPath = csvPath
 
-        if (!fs.existsSync(csvPath)) {
+        this.validatePath()
+    }
+
+    private validatePath() {
+        this.assertPathPassed()
+        this.assertPathExists()
+    }
+
+    private assertPathPassed() {
+        assertOptions({ csvPath: this.csvPath }, ['csvPath'])
+    }
+
+    private assertPathExists() {
+        if (!fs.existsSync(this.csvPath)) {
             throw new SpruceError({
                 code: 'FILE_NOT_FOUND',
-                path: csvPath,
+                path: this.csvPath,
             })
         }
     }

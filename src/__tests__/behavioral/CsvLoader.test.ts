@@ -7,11 +7,13 @@ import CsvLoaderImpl, { CsvLoader } from './CsvLoader'
 
 export default class CsvLoaderTest extends AbstractSpruceTest {
     private static loader: CsvLoader
+    private static invalidPath: string
 
     protected static async beforeEach() {
         await super.beforeEach()
 
         this.loader = this.Loader()
+        this.invalidPath = 'asdf'
     }
 
     @test()
@@ -33,14 +35,17 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
 
     @test()
     protected static async throwsIfPathDoesNotExist() {
-        const invalidPath = 'asdf'
-
         const err = await assert.doesThrowAsync(
-            async () => await this.loader.load(invalidPath)
+            async () => await this.loader.load(this.invalidPath)
         )
 
-        errorAssert.assertError(err, 'FILE_NOT_FOUND', { path: invalidPath })
+        errorAssert.assertError(err, 'FILE_NOT_FOUND', {
+            path: this.invalidPath,
+        })
     }
+
+    @test()
+    protected static async throwsIfPathIsNotCsvFormat() {}
 
     private static Loader() {
         return CsvLoaderImpl.Create()
