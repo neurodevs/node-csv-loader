@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { assertOptions } from '@sprucelabs/schema'
+import csvParser from 'csv-parser'
 import SpruceError from '../../errors/SpruceError'
 
 export default class CsvLoaderImpl implements CsvLoader {
@@ -15,8 +16,9 @@ export default class CsvLoaderImpl implements CsvLoader {
 
     public async load(csvPath: string) {
         this.csvPath = csvPath
-
         this.validatePath()
+
+        return await this.loadCsv(this.csvPath)
     }
 
     private validatePath() {
@@ -47,10 +49,23 @@ export default class CsvLoaderImpl implements CsvLoader {
             })
         }
     }
+
+    private async loadCsv(csvPath: string) {
+        return new Promise((resolve, reject) => {
+            const data: CsvRow[] = []
+            fs.createReadStream(csvPath)
+                .pipe(csvParser())
+                .on('data', (row) => data.push(row))
+                .on('end', () => resolve(data))
+                .on('error', (err) => reject(err))
+        }) as Promise<CsvRow[]>
+    }
 }
 
 export interface CsvLoader {
-    load(csvPath: string): Promise<void>
+    load(csvPath: string): Promise<CsvRow[]>
 }
 
 export type CsvLoaderConstructor = new () => CsvLoader
+
+export type CsvRow = Record<string, string>

@@ -1,15 +1,19 @@
+import fs from 'fs'
 import AbstractSpruceTest, {
     test,
     assert,
     errorAssert,
     generateId,
 } from '@sprucelabs/test-utils'
+import csvParser from 'csv-parser'
 import CsvLoaderImpl, { CsvLoader } from './CsvLoader'
 
 export default class CsvLoaderTest extends AbstractSpruceTest {
     private static loader: CsvLoader
     private static invalidExtensionPath: string
     private static doesNotExistPath: string
+    private static actualPath: string
+    private static testCsvData: any[]
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -17,6 +21,9 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         this.loader = this.Loader()
         this.invalidExtensionPath = generateId()
         this.doesNotExistPath = `${generateId()}.csv`
+        this.actualPath = 'src/__tests__/testData/test.csv'
+
+        this.testCsvData = await this.loadCsv(this.actualPath)
     }
 
     @test()
@@ -28,7 +35,7 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
     protected static async throwsWithMissingRequiredOptions() {
         const err = await assert.doesThrowAsync(
             // @ts-ignore
-            async () => await this.loader.load()
+            async () => await this.load()
         )
 
         errorAssert.assertError(err, 'MISSING_PARAMETERS', {
@@ -57,6 +64,27 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
             expected: '.csv',
             path: this.invalidExtensionPath,
         })
+    }
+
+    @test()
+    protected static async loadsCsvDataCorrectly() {
+        const data = await this.load(this.actualPath)
+        assert.isEqualDeep(data, this.testCsvData)
+    }
+
+    private static async loadCsv(csvPath: string) {
+        return new Promise((resolve, reject) => {
+            const data: any[] = []
+            fs.createReadStream(csvPath)
+                .pipe(csvParser())
+                .on('data', (row) => data.push(row))
+                .on('end', () => resolve(data))
+                .on('error', (err) => reject(err))
+        }) as Promise<any>
+    }
+
+    private static async load(csvPath: string) {
+        return await this.loader.load(csvPath)
     }
 
     private static Loader() {
