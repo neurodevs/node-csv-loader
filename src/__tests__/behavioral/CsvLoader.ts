@@ -18,7 +18,7 @@ export default class CsvLoaderImpl implements CsvLoader {
         this.path = path
         this.validatePath()
 
-        return await this.loadCsv(this.path)
+        return await this.loadCsv()
     }
 
     private validatePath() {
@@ -50,10 +50,10 @@ export default class CsvLoaderImpl implements CsvLoader {
         }
     }
 
-    private async loadCsv(path: string) {
+    private async loadCsv() {
         return new Promise((resolve, reject) => {
             const data: CsvRow[] = []
-            fs.createReadStream(path)
+            fs.createReadStream(this.path)
                 .pipe(csvParser())
                 .on('data', (row) => data.push(row))
                 .on('end', () => resolve(data))
