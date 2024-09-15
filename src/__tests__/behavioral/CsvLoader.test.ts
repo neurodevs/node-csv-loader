@@ -6,10 +6,11 @@ import AbstractSpruceTest, {
     generateId,
 } from '@sprucelabs/test-utils'
 import csvParser from 'csv-parser'
-import CsvLoaderImpl, { CsvLoader, CsvRow } from './CsvLoader'
+import CsvLoaderImpl, { CsvRow } from './CsvLoader'
+import SpyCsvLoader from './SpyCsvLoader'
 
 export default class CsvLoaderTest extends AbstractSpruceTest {
-    private static loader: CsvLoader
+    private static loader: SpyCsvLoader
     private static invalidExtensionPath: string
     private static doesNotExistPath: string
     private static actualPath: string
@@ -17,6 +18,8 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
 
     protected static async beforeEach() {
         await super.beforeEach()
+
+        CsvLoaderImpl.Class = SpyCsvLoader
 
         this.invalidExtensionPath = generateId()
         this.doesNotExistPath = `${generateId()}.csv`
@@ -88,6 +91,6 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
     }
 
     private static Loader() {
-        return CsvLoaderImpl.Create()
+        return CsvLoaderImpl.Create() as SpyCsvLoader
     }
 }
