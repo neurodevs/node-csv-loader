@@ -6,24 +6,24 @@ import AbstractSpruceTest, {
     generateId,
 } from '@sprucelabs/test-utils'
 import csvParser from 'csv-parser'
-import CsvLoaderImpl, { CsvLoader } from './CsvLoader'
+import CsvLoaderImpl, { CsvLoader, CsvRow } from './CsvLoader'
 
 export default class CsvLoaderTest extends AbstractSpruceTest {
     private static loader: CsvLoader
     private static invalidExtensionPath: string
     private static doesNotExistPath: string
     private static actualPath: string
-    private static testCsvData: any[]
+    private static expectedData: CsvRow[]
 
     protected static async beforeEach() {
         await super.beforeEach()
 
-        this.loader = this.Loader()
         this.invalidExtensionPath = generateId()
         this.doesNotExistPath = `${generateId()}.csv`
         this.actualPath = 'src/__tests__/testData/test.csv'
+        this.expectedData = await this.loadCsv(this.actualPath)
 
-        this.testCsvData = await this.loadCsv(this.actualPath)
+        this.loader = this.Loader()
     }
 
     @test()
@@ -69,18 +69,18 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
     @test()
     protected static async loadsCsvDataCorrectly() {
         const data = await this.load(this.actualPath)
-        assert.isEqualDeep(data, this.testCsvData)
+        assert.isEqualDeep(data, this.expectedData)
     }
 
     private static async loadCsv(path: string) {
         return new Promise((resolve, reject) => {
-            const data: any[] = []
+            const data: CsvRow[] = []
             fs.createReadStream(path)
                 .pipe(csvParser())
                 .on('data', (row) => data.push(row))
                 .on('end', () => resolve(data))
                 .on('error', (err) => reject(err))
-        }) as Promise<any>
+        }) as Promise<CsvRow[]>
     }
 
     private static async load(path: string) {
