@@ -6,6 +6,7 @@ import * as SpruceSchema from '@sprucelabs/schema'
 
 
 
+
 export declare namespace SpruceErrors.NodeCsvLoader {
 
 	
@@ -13,7 +14,7 @@ export declare namespace SpruceErrors.NodeCsvLoader {
 		
 			/** The expected file extension.. */
 			'expected': string
-			/** The path to the file with an invalid file extension.. */
+			/** Path to the file with an invalid file extension.. */
 			'path': string
 	}
 
@@ -29,9 +30,9 @@ export declare namespace SpruceErrors.NodeCsvLoader {
 		                isRequired: true,
 		                options: undefined
 		            },
-		            /** The path to the file with an invalid file extension.. */
+		            /** Path to the file with an invalid file extension.. */
 		            'path': {
-		                label: 'The path to the file with an invalid file extension.',
+		                label: 'Path to the file with an invalid file extension.',
 		                type: 'text',
 		                isRequired: true,
 		                options: undefined
@@ -69,6 +70,35 @@ export declare namespace SpruceErrors.NodeCsvLoader {
 	}
 
 	export type FileNotFoundEntity = SchemaEntity<SpruceErrors.NodeCsvLoader.FileNotFoundSchema>
+
+}
+
+
+export declare namespace SpruceErrors.NodeCsvLoader {
+
+	
+	export interface FileLoadFailed {
+		
+			/** Path to the file that failed to load.. */
+			'path': string
+	}
+
+	export interface FileLoadFailedSchema extends SpruceSchema.Schema {
+		id: 'fileLoadFailed',
+		namespace: 'NodeCsvLoader',
+		name: 'FILE_LOAD_FAILED',
+		    fields: {
+		            /** Path to the file that failed to load.. */
+		            'path': {
+		                label: 'Path to the file that failed to load.',
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type FileLoadFailedEntity = SchemaEntity<SpruceErrors.NodeCsvLoader.FileLoadFailedSchema>
 
 }
 

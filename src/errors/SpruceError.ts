@@ -15,6 +15,10 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
                 message = `Invalid file extension! Expected '${options.expected}', but received a file with path: '${options.path}'.`
                 break
 
+            case 'FILE_LOAD_FAILED':
+                message = 'A FILE_LOAD_FAILED just happened!'
+                break
+
             default:
                 message = super.friendlyMessage()
         }

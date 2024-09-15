@@ -70,6 +70,21 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
     }
 
     @test()
+    protected static async throwsIfLoadFails() {
+        const fakeError = 'Unhandled error'
+        this.loader.setThrowOnLoadCsv(fakeError)
+
+        const err = await assert.doesThrowAsync(
+            async () => await this.load(this.actualPath)
+        )
+
+        errorAssert.assertError(err, 'FILE_LOAD_FAILED', {
+            path: this.actualPath,
+            originalError: fakeError,
+        })
+    }
+
+    @test()
     protected static async loadsCsvDataCorrectly() {
         const data = await this.load(this.actualPath)
         assert.isEqualDeep(data, this.expectedData)

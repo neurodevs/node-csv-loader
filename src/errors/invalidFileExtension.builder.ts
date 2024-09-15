@@ -11,7 +11,7 @@ export default buildErrorSchema({
         },
         path: {
             type: 'text',
-            label: 'The path to the file with an invalid file extension.',
+            label: 'Path to the file with an invalid file extension.',
             isRequired: true,
         },
     },

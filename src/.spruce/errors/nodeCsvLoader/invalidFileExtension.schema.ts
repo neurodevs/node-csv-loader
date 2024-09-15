@@ -15,9 +15,9 @@ const invalidFileExtensionSchema: SpruceErrors.NodeCsvLoader.InvalidFileExtensio
 	                isRequired: true,
 	                options: undefined
 	            },
-	            /** The path to the file with an invalid file extension.. */
+	            /** Path to the file with an invalid file extension.. */
 	            'path': {
-	                label: 'The path to the file with an invalid file extension.',
+	                label: 'Path to the file with an invalid file extension.',
 	                type: 'text',
 	                isRequired: true,
 	                options: undefined

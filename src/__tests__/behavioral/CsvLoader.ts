@@ -18,7 +18,16 @@ export default class CsvLoaderImpl implements CsvLoader {
         this.path = path
         this.validatePath()
 
-        return await this.loadCsv()
+        try {
+            return await this.loadCsv()
+        } catch (err: any) {
+            debugger
+            throw new SpruceError({
+                code: 'FILE_LOAD_FAILED',
+                path: this.path,
+                originalError: err.message,
+            })
+        }
     }
 
     private validatePath() {
@@ -50,7 +59,7 @@ export default class CsvLoaderImpl implements CsvLoader {
         }
     }
 
-    private async loadCsv() {
+    protected async loadCsv() {
         return new Promise((resolve, reject) => {
             const data: CsvRow[] = []
             fs.createReadStream(this.path)
