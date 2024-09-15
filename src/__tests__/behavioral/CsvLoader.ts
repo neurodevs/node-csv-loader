@@ -6,31 +6,29 @@ import SpruceError from '../../errors/SpruceError'
 export default class CsvLoaderImpl implements CsvLoader {
     public static Class?: CsvLoaderConstructor
 
+    private shouldValidatePath: boolean
     private path!: string
 
-    protected constructor() {}
+    protected constructor(options?: CsvLoaderOptions) {
+        const { shouldValidatePath = true } = options ?? {}
+        this.shouldValidatePath = shouldValidatePath
+    }
 
-    public static Create() {
-        return new (this.Class ?? this)()
+    public static Create(options?: CsvLoaderOptions) {
+        return new (this.Class ?? this)(options)
     }
 
     public async load(path: string) {
         this.path = path
-        this.validatePath()
 
-        try {
-            return await this.loadCsv()
-        } catch (err: any) {
-            debugger
-            throw new SpruceError({
-                code: 'FILE_LOAD_FAILED',
-                path: this.path,
-                originalError: err.message,
-            })
+        if (this.shouldValidatePath) {
+            this.validatePath()
         }
+
+        return await this.tryToLoadCsv()
     }
 
-    private validatePath() {
+    protected validatePath() {
         this.assertPathWasPassed()
         this.assertPathHasCsvExtension()
         this.assertPathExists()
@@ -59,6 +57,18 @@ export default class CsvLoaderImpl implements CsvLoader {
         }
     }
 
+    private async tryToLoadCsv() {
+        try {
+            return await this.loadCsv()
+        } catch (err: any) {
+            throw new SpruceError({
+                code: 'FILE_LOAD_FAILED',
+                path: this.path,
+                originalError: err.message,
+            })
+        }
+    }
+
     protected async loadCsv() {
         return new Promise((resolve, reject) => {
             const data: CsvRow[] = []
@@ -75,6 +85,10 @@ export interface CsvLoader {
     load(path: string): Promise<CsvRow[]>
 }
 
-export type CsvLoaderConstructor = new () => CsvLoader
+export type CsvLoaderConstructor = new (options?: CsvLoaderOptions) => CsvLoader
+
+export interface CsvLoaderOptions {
+    shouldValidatePath?: boolean
+}
 
 export type CsvRow = Record<string, string>

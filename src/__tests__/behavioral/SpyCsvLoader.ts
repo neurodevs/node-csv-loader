@@ -1,10 +1,12 @@
-import CsvLoaderImpl from './CsvLoader'
+import CsvLoaderImpl, { CsvLoaderOptions } from './CsvLoader'
 
 export default class SpyCsvLoader extends CsvLoaderImpl {
-    private err!: string
+    public numCallsToValidatePath = 0
+    private originalLoadCsv = this.loadCsv
+    private err = ''
 
-    public constructor() {
-        super()
+    public constructor(options?: CsvLoaderOptions) {
+        super(options)
     }
 
     public setThrowOnLoadCsv(err: string) {
@@ -13,5 +15,16 @@ export default class SpyCsvLoader extends CsvLoaderImpl {
         this.loadCsv = async () => {
             throw new Error(this.err)
         }
+    }
+
+    public validatePath() {
+        this.numCallsToValidatePath++
+        super.validatePath()
+    }
+
+    public clearTestDouble() {
+        this.numCallsToValidatePath = 0
+        this.loadCsv = this.originalLoadCsv
+        this.err = ''
     }
 }

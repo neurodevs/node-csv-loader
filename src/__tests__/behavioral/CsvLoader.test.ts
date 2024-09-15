@@ -6,15 +6,16 @@ import AbstractSpruceTest, {
     generateId,
 } from '@sprucelabs/test-utils'
 import csvParser from 'csv-parser'
-import CsvLoaderImpl, { CsvRow } from './CsvLoader'
+import CsvLoaderImpl, { CsvLoaderOptions, CsvRow } from './CsvLoader'
 import SpyCsvLoader from './SpyCsvLoader'
 
 export default class CsvLoaderTest extends AbstractSpruceTest {
-    private static loader: SpyCsvLoader
     private static invalidExtensionPath: string
     private static doesNotExistPath: string
     private static actualPath: string
     private static expectedData: CsvRow[]
+
+    private static loader: SpyCsvLoader
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -27,6 +28,7 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         this.expectedData = await this.loadCsv(this.actualPath)
 
         this.loader = this.Loader()
+        this.loader.clearTestDouble()
     }
 
     @test()
@@ -85,6 +87,14 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
     }
 
     @test()
+    protected static async canTurnOffValidation() {
+        const loader = this.Loader({ shouldValidatePath: false })
+
+        await loader.load(this.actualPath)
+        assert.isEqual(loader.numCallsToValidatePath, 0)
+    }
+
+    @test()
     protected static async loadsCsvDataCorrectly() {
         const data = await this.load(this.actualPath)
         assert.isEqualDeep(data, this.expectedData)
@@ -105,7 +115,7 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         return await this.loader.load(path)
     }
 
-    private static Loader() {
-        return CsvLoaderImpl.Create() as SpyCsvLoader
+    private static Loader(options?: CsvLoaderOptions) {
+        return CsvLoaderImpl.Create(options) as SpyCsvLoader
     }
 }
