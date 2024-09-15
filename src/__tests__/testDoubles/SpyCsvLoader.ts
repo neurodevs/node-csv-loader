@@ -1,4 +1,4 @@
-import CsvLoaderImpl, { CsvLoaderOptions } from './CsvLoader'
+import CsvLoaderImpl, { CsvLoaderOptions } from '../../CsvLoader'
 
 export default class SpyCsvLoader extends CsvLoaderImpl {
     public numCallsToValidatePath = 0

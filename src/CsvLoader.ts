@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { assertOptions } from '@sprucelabs/schema'
 import csvParser from 'csv-parser'
-import SpruceError from '../../errors/SpruceError'
+import SpruceError from './errors/SpruceError'
 
 export default class CsvLoaderImpl implements CsvLoader {
     public static Class?: CsvLoaderConstructor

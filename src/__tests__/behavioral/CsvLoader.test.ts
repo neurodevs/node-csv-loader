@@ -6,8 +6,8 @@ import AbstractSpruceTest, {
     generateId,
 } from '@sprucelabs/test-utils'
 import csvParser from 'csv-parser'
-import CsvLoaderImpl, { CsvLoaderOptions, CsvRow } from './CsvLoader'
-import SpyCsvLoader from './SpyCsvLoader'
+import CsvLoaderImpl, { CsvLoaderOptions, CsvRow } from '../../CsvLoader'
+import SpyCsvLoader from '../testDoubles/SpyCsvLoader'
 
 export default class CsvLoaderTest extends AbstractSpruceTest {
     private static invalidExtensionPath: string

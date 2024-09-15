@@ -16,7 +16,7 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
                 break
 
             case 'FILE_LOAD_FAILED':
-                message = 'A FILE_LOAD_FAILED just happened!'
+                message = `File load failed! Path: '${options.path}'.\n\nOriginal error: '${options.originalError}'.`
                 break
 
             default:
