@@ -6,7 +6,7 @@ import SpruceError from '../../errors/SpruceError'
 export default class CsvLoaderImpl implements CsvLoader {
     public static Class?: CsvLoaderConstructor
 
-    private csvPath!: string
+    private path!: string
 
     protected constructor() {}
 
@@ -14,11 +14,11 @@ export default class CsvLoaderImpl implements CsvLoader {
         return new (this.Class ?? this)()
     }
 
-    public async load(csvPath: string) {
-        this.csvPath = csvPath
+    public async load(path: string) {
+        this.path = path
         this.validatePath()
 
-        return await this.loadCsv(this.csvPath)
+        return await this.loadCsv(this.path)
     }
 
     private validatePath() {
@@ -28,32 +28,32 @@ export default class CsvLoaderImpl implements CsvLoader {
     }
 
     private assertPathWasPassed() {
-        assertOptions({ csvPath: this.csvPath }, ['csvPath'])
+        assertOptions({ path: this.path }, ['path'])
     }
 
     private assertPathIsCsv() {
-        if (!this.csvPath.endsWith('.csv')) {
+        if (!this.path.endsWith('.csv')) {
             throw new SpruceError({
                 code: 'INVALID_FILE_EXTENSION',
                 expected: '.csv',
-                path: this.csvPath,
+                path: this.path,
             })
         }
     }
 
     private assertPathExists() {
-        if (!fs.existsSync(this.csvPath)) {
+        if (!fs.existsSync(this.path)) {
             throw new SpruceError({
                 code: 'FILE_NOT_FOUND',
-                path: this.csvPath,
+                path: this.path,
             })
         }
     }
 
-    private async loadCsv(csvPath: string) {
+    private async loadCsv(path: string) {
         return new Promise((resolve, reject) => {
             const data: CsvRow[] = []
-            fs.createReadStream(csvPath)
+            fs.createReadStream(path)
                 .pipe(csvParser())
                 .on('data', (row) => data.push(row))
                 .on('end', () => resolve(data))
@@ -63,7 +63,7 @@ export default class CsvLoaderImpl implements CsvLoader {
 }
 
 export interface CsvLoader {
-    load(csvPath: string): Promise<CsvRow[]>
+    load(path: string): Promise<CsvRow[]>
 }
 
 export type CsvLoaderConstructor = new () => CsvLoader

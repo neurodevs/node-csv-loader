@@ -39,7 +39,7 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         )
 
         errorAssert.assertError(err, 'MISSING_PARAMETERS', {
-            parameters: ['csvPath'],
+            parameters: ['path'],
         })
     }
 
@@ -72,10 +72,10 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         assert.isEqualDeep(data, this.testCsvData)
     }
 
-    private static async loadCsv(csvPath: string) {
+    private static async loadCsv(path: string) {
         return new Promise((resolve, reject) => {
             const data: any[] = []
-            fs.createReadStream(csvPath)
+            fs.createReadStream(path)
                 .pipe(csvParser())
                 .on('data', (row) => data.push(row))
                 .on('end', () => resolve(data))
@@ -83,8 +83,8 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         }) as Promise<any>
     }
 
-    private static async load(csvPath: string) {
-        return await this.loader.load(csvPath)
+    private static async load(path: string) {
+        return await this.loader.load(path)
     }
 
     private static Loader() {
