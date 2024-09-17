@@ -25,6 +25,12 @@ const data = await loader.load('/path/to/csv')
 
 ### Disable Path Validation
 
+This class automatically performs the following validations on the path you pass to the load method:
+
+- Asserts that you passed a path
+- Asserts that the file exists at the path
+- Asserts that the file extension is '.csv'
+
 To turn off path validation (e.g., when you are certain of the file's existence or extension):
 
 ```typescript
