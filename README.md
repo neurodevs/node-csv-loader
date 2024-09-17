@@ -15,12 +15,12 @@ npm install @neurodevs/node-csv-loader
 To load a CSV file:
 
 ```typescript
-import { CsvLoaderImpl } from '@neurodevs/node-csv-loader';
+import { CsvLoaderImpl } from '@neurodevs/node-csv-loader'
 
-const loader = CsvLoaderImpl.Create();
+const loader = CsvLoaderImpl.Create()
 
 // In an async function
-const data = await loader.load('/path/to/csv');
+const data = await loader.load('/path/to/csv')
 ```
 
 ### Disable Path Validation
@@ -28,7 +28,7 @@ const data = await loader.load('/path/to/csv');
 To turn off path validation (e.g., when you are certain of the file's existence or extension):
 
 ```typescript
-const loader = CsvLoaderImpl.Create({ shouldValidatePath: false });
+const loader = CsvLoaderImpl.Create({ shouldValidatePath: false })
 ```
 
 ## Testing
@@ -36,15 +36,15 @@ const loader = CsvLoaderImpl.Create({ shouldValidatePath: false });
 You can use the following test doubles for unit testing purposes:
 
 ```typescript
-import { FakeCsvLoader, SpyCsvLoader } from '@neurodevs/node-csv-loader';
+import { FakeCsvLoader, SpyCsvLoader } from '@neurodevs/node-csv-loader'
 
 // Use FakeCsvLoader for simulating inputs and outputs in tests
-CsvLoaderImpl.Class = FakeCsvLoader;
+CsvLoaderImpl.Class = FakeCsvLoader
 
 // Use SpyCsvLoader to test real behavior with enhanced internal visibility
-CsvLoaderImpl.Class = SpyCsvLoader;
+CsvLoaderImpl.Class = SpyCsvLoader
 
-const loader = CsvLoaderImpl.Create();
+const loader = CsvLoaderImpl.Create()
 ```
 
 - **`FakeCsvLoader`**: Provides a fake implementation to simulate CSV loading for testing.
