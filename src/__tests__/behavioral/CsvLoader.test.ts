@@ -20,7 +20,6 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         this.expectedData = await this.loadCsv(this.actualPath)
 
         this.loader = this.Loader()
-        this.loader.clearTestDouble()
     }
 
     @test()
