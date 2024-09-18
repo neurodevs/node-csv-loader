@@ -4,9 +4,11 @@
 
 Install the package using npm:
 
-```bash
-npm install @neurodevs/node-csv-loader
-```
+`npm install @neurodevs/node-csv-loader`
+
+Or yarn:
+
+`yarn add @neurodevs/node-csv-loader`
 
 ## Usage
 
