@@ -1,5 +1,7 @@
 # node-csv-loader
 
+A simple CSV file loader for Node.js
+
 ## Installation
 
 Install the package using npm:
