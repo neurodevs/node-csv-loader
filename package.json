@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/node-csv-loader",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "build/index.js",
   "repository": "https://github.com/neurodevs/node-csv-loader",
   "scripts": {
@@ -64,7 +64,7 @@
     }
   },
   "dependencies": {
-    "@neurodevs/node-file-loader": "^0.1.0",
+    "@neurodevs/node-file-loader": "^0.2.0",
     "@sprucelabs/error": "^6.0.347",
     "@sprucelabs/schema": "^30.0.395",
     "@sprucelabs/spruce-core-schemas": "^40.1.340",
