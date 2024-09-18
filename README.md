@@ -21,10 +21,11 @@ To load a CSV file:
 ```typescript
 import { CsvLoaderImpl } from '@neurodevs/node-csv-loader'
 
-const loader = CsvLoaderImpl.Create()
-
-// In an async function
-const data = await loader.load('/path/to/csv')
+async function loadCsv() {
+  const loader = CsvLoaderImpl.Create()
+  const data = await loader.load('/path/to/csv')
+  console.log(data)
+}
 ```
 
 ### Disable Path Validation
