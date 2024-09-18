@@ -5,8 +5,9 @@ import AbstractSpruceTest, {
     errorAssert,
     generateId,
 } from '@sprucelabs/test-utils'
+import { FileLoaderOptions } from '@neurodevs/node-file-loader'
 import csvParser from 'csv-parser'
-import CsvLoaderImpl, { CsvLoaderOptions, CsvRow } from '../../CsvLoader'
+import CsvLoaderImpl, { CsvRow } from '../../CsvLoader'
 import SpyCsvLoader from '../testDoubles/SpyCsvLoader'
 
 export default class CsvLoaderTest extends AbstractSpruceTest {
@@ -74,7 +75,7 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
     @test()
     protected static async throwsIfLoadFails() {
         const fakeError = 'Unhandled error'
-        this.loader.setThrowOnLoadCsv(fakeError)
+        this.loader.setThrowOnLoadFile(fakeError)
 
         const err = await assert.doesThrowAsync(
             async () => await this.load(this.actualPath)
@@ -115,7 +116,7 @@ export default class CsvLoaderTest extends AbstractSpruceTest {
         return await this.loader.load(path)
     }
 
-    private static Loader(options?: CsvLoaderOptions) {
+    private static Loader(options?: FileLoaderOptions) {
         return CsvLoaderImpl.Create(options) as SpyCsvLoader
     }
 }

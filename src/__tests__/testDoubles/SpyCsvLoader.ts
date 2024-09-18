@@ -1,18 +1,19 @@
-import CsvLoaderImpl, { CsvLoaderOptions } from '../../CsvLoader'
+import { FileLoaderOptions } from '@neurodevs/node-file-loader'
+import CsvLoaderImpl from '../../CsvLoader'
 
 export default class SpyCsvLoader extends CsvLoaderImpl {
     public numCallsToValidatePath = 0
-    private originalLoadCsv = this.loadCsv
+    private originalLoadFile = this.loadFile
     private err = ''
 
-    public constructor(options?: CsvLoaderOptions) {
+    public constructor(options?: FileLoaderOptions) {
         super(options)
     }
 
-    public setThrowOnLoadCsv(err: string) {
+    public setThrowOnLoadFile(err: string) {
         this.err = err
 
-        this.loadCsv = async () => {
+        this.loadFile = async () => {
             throw new Error(this.err)
         }
     }
@@ -24,7 +25,7 @@ export default class SpyCsvLoader extends CsvLoaderImpl {
 
     public clearTestDouble() {
         this.numCallsToValidatePath = 0
-        this.loadCsv = this.originalLoadCsv
+        this.loadFile = this.originalLoadFile
         this.err = ''
     }
 }
