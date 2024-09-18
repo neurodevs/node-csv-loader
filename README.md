@@ -39,6 +39,8 @@ This class automatically performs the following validations on the path you pass
 To turn off path validation (e.g., when you are certain of the file's existence or extension):
 
 ```typescript
+import { CsvLoaderImpl } from '@neurodevs/node-csv-loader'
+
 const loader = CsvLoaderImpl.Create({ shouldValidatePath: false })
 ```
 
@@ -47,7 +49,11 @@ const loader = CsvLoaderImpl.Create({ shouldValidatePath: false })
 You can use the following test doubles for unit testing purposes:
 
 ```typescript
-import { FakeCsvLoader, SpyCsvLoader } from '@neurodevs/node-csv-loader'
+import {
+  CsvLoaderImpl,
+  FakeCsvLoader,
+  SpyCsvLoader
+} from '@neurodevs/node-csv-loader'
 
 // Use FakeCsvLoader for simulating inputs and outputs in tests
 CsvLoaderImpl.Class = FakeCsvLoader
