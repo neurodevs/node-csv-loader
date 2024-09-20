@@ -1,6 +1,6 @@
 # node-csv-loader
 
-A simple CSV file loader for Node.js
+A simple CSV file loader
 
 ## Installation
 
